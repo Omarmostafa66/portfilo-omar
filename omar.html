@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Omar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            position: relative;
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            margin-top: 20px;
+        }
+        .about-btn {
+            background: #ff9800;
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 50px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .about-text {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .projects, .skills {
+            display: none;
+            margin-top: 40px;
+            text-align: center;
+        }
+        .project-card, .skills-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            width: 80%;
+        }
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+        .skills.show .skills-container {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .skill-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            width: 45%;
+            text-align: center;
+        }
+        .skills-grid {
+         display: grid;
+         grid-template-columns: repeat(2, 1fr);
+         gap: 15px;
+         max-width: 400px;
+         margin: auto;
+    }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: transparent;
+            padding: 10px 0;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: row;
+            margin-left: 20px;
+        }
+        .social-icons a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+    transform: scale(1.2); /* زيادة الحجم عند التمرير */
+    color: #ff9800; /* تغيير اللون عند التمرير */
+}
+
+.social-icons a:active {
+    transform: scale(0.95); /* تصغير الأيقونة عند الضغط */
+}
+
+        .download-cv, .projects-btn, .skills-btn {
+            background: #00bcd4;
+            color: #fff;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .project-images {
+            display: none;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .project-img {
+            width: calc(50% - 15px);
+            max-width: 300px;
+            border-radius: 10px;
+        }
+
+        .view-project-btn {
+            background: #ff9800;
+            color: #fff;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            width: 50%;
+            margin: 10px auto 0;
+        }
+
+        .description-btn {
+            background: #8bc34a;
+            color: #fff;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            width: 50%;
+            margin: 10px auto 0;
+        }
+
+        .certificates-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .certificate-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .certificate-img {
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .about-btn, .projects-btn, .skills-btn, .certificates-btn, .download-cv, .view-project-btn, .description-btn, .show-certificate-btn {
+    transition: background-color 0.3s ease, transform 0.1s ease-in-out;
+}
+
+.about-btn:hover, .projects-btn:hover, .skills-btn:hover, .certificates-btn:hover, .download-cv:hover, .view-project-btn:hover, .description-btn:hover, .show-certificate-btn:hover {
+    background-color: #ff5722; /* تغيير لون الخلفية عند التمرير فوق الزر */
+}
+
+.about-btn:active, .projects-btn:active, .skills-btn:active, .certificates-btn:active, .download-cv:active, .view-project-btn:active, .description-btn:active, .show-certificate-btn:active {
+    transform: scale(0.98);  /* تصغير الزر عند الضغط */
+    transition: transform 0.1s ease-in-out;
+}
+
+
+        .certificates-btn, .show-certificate-btn {
+            background: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .show-certificate-btn {
+            width: 100%;
+            background: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="about-btn" onclick="toggleAbout()">About</button>
+        <img src="omar.jpg" alt="Omar" class="profile-img">
+        <h2>Hello,I'm Omar Mostafa Abdsttar</h2>
+        <p>😍I wish you a happy day</p>
+        <p class="about-text">🚀I am a student in Computer Science and Artificial Intelligence at Helwan National University, specializing in Robotics.💻</p>
+        <a href="#" class="download-cv" onclick="viewCV()">CV</a>
+        <button class="projects-btn" onclick="toggleProjects()">My Projects</button>
+        <button class="skills-btn" onclick="toggleSkills()">My Skills</button>
+    </div>
+    <div class="projects">
+        <h3>My Projects</h3>
+        <div class="project-card">
+            <h4> Light Sensor Circuit Design with LDR</h4>
+            <button class="view-project-btn" onclick="showProject('project1-images')">View Project</button>
+            <button class="description-btn" onclick="showDescription('project1-description')">Project Description</button>
+            <div id="project1-images" class="project-images">
+                <img src="1.png" class="project-img">
+                <img src="2.jpg" class="project-img">
+                <img src="3.png" class="project-img">
+                <img src="4.jpg" class="project-img">
+            </div>
+            <div id="project1-description" style="display: none; background-color: rgba(0,0,0,0.7); padding: 15px; border-radius: 10px; margin-top: 10px;">
+                This is the description of Project Electron. It involves creating a device that monitors and controls electronic components.
+            </div>
+        </div>
+        <div class="project-card">
+            <h4>Portfolio Website</h4>
+            <button class="view-project-btn" onclick="showProject('portfolio-images')">View Project</button>
+            <button class="description-btn" onclick="showDescription('portfolio-description')">Project Description</button>
+            <div id="portfolio-images" class="project-images">
+                <img src="portfolio1.jpg" class="project-img">
+                <img src="portfolio2.jpg" class="project-img">
+            </div>
+            <div id="portfolio-description" style="display: none; background-color: rgba(0,0,0,0.7); padding: 15px; border-radius: 10px; margin-top: 10px;">
+                This project showcases my portfolio website which highlights my skills and projects in web development.
+            </div>
+        </div>
+    </div>
+    <button class="certificates-btn" onclick="toggleCertificates()">My Certificates</button>
+    <div class="certificates" style="display: none; margin-top: 40px; text-align: center;">
+        <h3>📜 My Certificates</h3>
+        <div class="certificates-container">
+            <div class="certificate-card">
+                <button class="show-certificate-btn" onclick="toggleCertificate('certificate1')"> Full Stack Web Development using Python  course from the Information Technology Institute.
+(ITI)</button>
+                <div id="certificate1" class="certificate-details" style="display: none;">
+                    <img src="ITI.jpg" class="certificate-img">
+                    <p>🎓 Full Stack Web Development Using Python Certification 🏆
+
+This certificate proudly validates the successful completion of the Full Stack Web Development Using Python course at the Information Technology Institute (ITI), covering 120 hours of hands-on training. 💻🚀
+
+🔥 What You Mastered:
+✅ Object-Oriented Programming in Python 🐍 – Advanced coding techniques to write efficient and scalable programs.
+✅ Python Web Frameworks (Flask & Django) 🌐 – Building powerful, modern web applications.
+✅ Client-Side Technologies 🎨 – Crafting dynamic and interactive user interfaces.
+✅ PostgreSQL Database Management 🗄️ – Handling and managing data like a pro.
+
+This certification proves your ability to develop full-stack web applications with cutting-edge technologies, making you a strong candidate for the tech industry! 🌟💼</p>
+                </div>
+            </div>
+            <div class="certificate-card">
+                <button class="show-certificate-btn" onclick="toggleCertificate('certificate2')">AI & Machine Learning Certificate</button>
+                <div id="certificate2" class="certificate-details" style="display: none;">
+                    <img src="certificate2.jpg" class="certificate-img">
+                    <p>Completed AI & Machine Learning Course - Neural Networks and Deep Learning.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="skills">
+        <h3>🎯My Skills</h3>
+        <div class="skills-grid">
+            <div class="skill-item">✅ Python</div>
+            <div class="skill-item">✅ C++</div>
+            <div class="skill-item">✅ Java</div>
+            <div class="skill-item">✅ JavaScript</div>
+            <div class="skill-item">✅ HTML</div>
+            <div class="skill-item">✅ CSS</div>
+            <div class="skill-item">✅ Full-Stack Development</div>
+            <div class="skill-item">✅ Robotics & AI</div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="social-icons">
+            <a href="#" onclick="showFacebookLink()">Facebook</a>
+            <a href="#" onclick="showPhoneNumber()">WhatsApp</a>
+            <a href="#" onclick="showLinkedInLink()">LinkedIn</a>
+        </div>
+    </div>
+    <script>
+        function showLinkedInLink() {
+            var linkedInLink = "https://www.linkedin.com/in/omar-mostafa-abdsttar-b2b72134b?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BfvMFsLiOSqevllE6VvUk6A%3D%3D";
+            var confirmOpen = confirm("My LinkedIn Profile:\n" + linkedInLink + "\n\nDo you want to open it?");
+            if (confirmOpen) {
+                window.open(linkedInLink, "_blank");
+            }
+        }
+
+        function showPhoneNumber() {
+            var phoneNumber = "01121995578";
+            var confirmOpen = confirm("Phone Number: " + phoneNumber + "\nDo you want to open it? WhatsApp?");
+            if (confirmOpen) {
+                window.open("https://wa.me/2" + phoneNumber, "_blank");
+            }
+        }
+
+        function showFacebookLink() {
+            var facebookLink = "https://www.facebook.com/share/12LH5FivE7b/";
+            var confirmOpen = confirm("My Facebook Page:\n" + facebookLink + "\n\nDo you want to open it?");
+            if (confirmOpen) {
+                window.open(facebookLink, "_blank");
+            }
+        }
+
+        function toggleAbout() {
+            var aboutText = document.querySelector(".about-text");
+            var projectsSection = document.querySelector(".projects");
+            var skillsSection = document.querySelector(".skills");
+
+            projectsSection.style.display = "none";
+            skillsSection.style.display = "none";
+            aboutText.style.display = aboutText.style.display === "none" ? "block" : "none";
+        }
+
+        function toggleProjects() {
+            var aboutText = document.querySelector(".about-text");
+            var projectsSection = document.querySelector(".projects");
+            var skillsSection = document.querySelector(".skills");
+
+            aboutText.style.display = "none";
+            skillsSection.style.display = "none";
+            projectsSection.style.display = projectsSection.style.display === "none" ? "block" : "none";
+        }
+
+        function toggleSkills() {
+            var aboutText = document.querySelector(".about-text");
+            var projectsSection = document.querySelector(".projects");
+            var skillsSection = document.querySelector(".skills");
+
+            aboutText.style.display = "none";
+            projectsSection.style.display = "none";
+            skillsSection.style.display = skillsSection.style.display === "none" ? "block" : "none";
+        }
+
+        function showProject(projectId) {
+            var projectImages = document.getElementById(projectId);
+            projectImages.style.display = projectImages.style.display === "flex" ? "none" : "flex";
+        }
+
+        function showDescription(descriptionId) {
+            var projectDescription = document.getElementById(descriptionId);
+            projectDescription.style.display = projectDescription.style.display === "block" ? "none" : "block";
+        }
+
+        function viewCV() {
+            var cvLink = "CV.pdf";
+            window.open(cvLink, "_blank");
+        }
+
+        function toggleCertificates() {
+            var aboutText = document.querySelector(".about-text");
+            var projectsSection = document.querySelector(".projects");
+            var skillsSection = document.querySelector(".skills");
+            var certificatesSection = document.querySelector(".certificates");
+
+            aboutText.style.display = "none";
+            projectsSection.style.display = "none";
+            skillsSection.style.display = "none";
+            certificatesSection.style.display = certificatesSection.style.display === "none" ? "block" : "none";
+        }
+
+        function toggleCertificate(certId) {
+            var allCertificates = document.querySelectorAll(".certificate-details");
+            allCertificates.forEach(cert => {
+                if (cert.id === certId) {
+                    cert.style.display = cert.style.display === "none" ? "block" : "none";
+                } else {
+                    cert.style.display = "none";
+                }
+            });
+        }
+        function animateButton(button) {
+    button.style.transform = "scale(0.98)";
+    setTimeout(() => {
+        button.style.transform = "scale(1)";
+    }, 100);
+}
+
+document.querySelectorAll(".about-btn, .projects-btn, .skills-btn, .certificates-btn, .download-cv, .view-project-btn, .description-btn, .show-certificate-btn")
+    .forEach(button => {
+        button.addEventListener("click", function() {
+            animateButton(button);
+        });
+    });
+
+    </script>
+</body>
+</html>
